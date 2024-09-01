@@ -1,0 +1,20 @@
+{
+  "name": "dummy-ims-backend",
+  "version": "1.0.0",
+  "description": "backend for ims",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DustyByte/dummy-ims-backend.git"
+  },
+  "author": "mashnun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DustyByte/dummy-ims-backend/issues"
+  },
+  "homepage": "https://github.com/DustyByte/dummy-ims-backend#readme"
+}
