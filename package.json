@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/DustyByte/dummy-ims-backend/issues"
   },
-  "homepage": "https://github.com/DustyByte/dummy-ims-backend#readme"
+  "homepage": "https://github.com/DustyByte/dummy-ims-backend#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "firebase": "^10.13.1"
+  }
 }
