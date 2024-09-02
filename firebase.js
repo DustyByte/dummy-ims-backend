@@ -7,7 +7,7 @@ const firebaseConfig = {
   storageBucket: "dummyims.appspot.com",
   messagingSenderId: "196039860313",
   appId: "1:196039860313:web:f71434c58edd2ca6671148"
-};
+}
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app)
+const app = initializeApp(firebaseConfig)
+export const db = getFirestore(app)
