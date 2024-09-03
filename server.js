@@ -10,7 +10,8 @@ const port = process.env.port || 3000
 app.use(express.json())
 
 app.use(cors({
-    origin: "*"
+    origin: "*",
+    methods: ['GET', 'POST']
 }))
 
 app.post('/', async (req, res) => {    
