@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.use(cors({
     origin: "*"
-})
+}))
 
 app.post('/', async (req, res) => {    
     const request = { ...req.body }
