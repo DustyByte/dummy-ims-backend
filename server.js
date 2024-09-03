@@ -9,11 +9,16 @@ const port = process.env.port || 3000
 
 app.use(express.json())
 
-app.use(cors())
-
-app.options('*', cors())
+app.options('*', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.sendStatus(204); // No Content
+})
 
 app.post('/', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    
     const request = { ...req.body }
     try{
         for(let i = 0; i < request.products.length; i++){
