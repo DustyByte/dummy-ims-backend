@@ -44,16 +44,6 @@ app.post('/', async (req, res) => {
 })
 
 
-
-app.post('/ping', (req, res) => {
-    res.send("pong")
-})
-
-app.put('/ping', (req, res) => {
-    res.send("pong")
-})
-
-
 app.get('/', async (req, res) => {
     try{
         const snapShot = await getDocs(collection(db, `products`))
