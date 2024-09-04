@@ -13,33 +13,43 @@ app.use(cors({
     origin: "*"
 }))
 
-app.post('/', async (req, res) => {    
-    const request = { ...req.body }
-    try{
-        for(let i = 0; i < request.products.length; i++){
-            const product = await getDoc(doc(db, 'products', request.products[i].productName))
-            const isOverStock = product.inStock >= 1000 ? true : false
+// app.post('/', async (req, res) => {    
+//     const request = { ...req.body }
+//     try{
+//         for(let i = 0; i < request.products.length; i++){
+//             const product = await getDoc(doc(db, 'products', request.products[i].productName))
+//             const isOverStock = product.inStock >= 1000 ? true : false
     
-            const inventoryInfo = await getDoc(doc(db, `inventory`, `info`))
-            await setDoc(doc(db, `products`, request.products[i].productName), {
-                ...product,
-                inStock: product.inStock - request.products[i].amountPurchased
-            })
+//             const inventoryInfo = await getDoc(doc(db, `inventory`, `info`))
+//             await setDoc(doc(db, `products`, request.products[i].productName), {
+//                 ...product,
+//                 inStock: product.inStock - request.products[i].amountPurchased
+//             })
     
-            await setDoc(doc(db, `inventory`, `info`), {
-                ...inventoryInfo,
-                productOverStocked: isOverStock ? (product.inStock-request.products[i].amountPurchased < 1000 ? inventoryInfo.productOverStocked - 1: inventoryInfo) : inventoryInfo,
-                productOutStocked: product.inStock - request.products[i].amountPurchased == 0 ? (inventoryInfo.productOutStocked + 1) : inventoryInfo.productOutStocked,
-                itemsInStock: inventoryInfo.itemsInStock - request.products[i].amountPurchased
-            })
+//             await setDoc(doc(db, `inventory`, `info`), {
+//                 ...inventoryInfo,
+//                 productOverStocked: isOverStock ? (product.inStock-request.products[i].amountPurchased < 1000 ? inventoryInfo.productOverStocked - 1: inventoryInfo) : inventoryInfo,
+//                 productOutStocked: product.inStock - request.products[i].amountPurchased == 0 ? (inventoryInfo.productOutStocked + 1) : inventoryInfo.productOutStocked,
+//                 itemsInStock: inventoryInfo.itemsInStock - request.products[i].amountPurchased
+//             })
             
-        }
-        res.json({success: true})
-        res.end()
-    }catch(err){
-        res.json({success: false})
-        res.end()
-    }
+//         }
+//         res.json({success: true})
+//         res.end()
+//     }catch(err){
+//         res.json({success: false})
+//         res.end()
+//     }
+// })
+
+
+
+app.post('/ping', (req, res) => {
+    res.send("pong")
+})
+
+app.put('/ping', (req, res) => {
+    res.send("pong")
 })
 
 
