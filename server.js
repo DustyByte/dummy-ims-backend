@@ -38,7 +38,7 @@ app.post('/', async (req, res) => {
         res.json({success: true})
         res.end()
     }catch(err){
-        res.json({success: false, reason: err.message})
+        res.json({success: false, reason: err.message, sentPayload: request})
         res.end()
     }
 })
