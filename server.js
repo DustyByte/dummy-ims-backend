@@ -17,8 +17,10 @@ app.post('/', async (req, res) => {
     const request = req.body
     try{
         for(let i = 0; i < request.products.length; i++){
-            const product = getDoc(doc(db, 'products', request.products[i].productName)).then(doc => doc.data())
-            const inventoryInfo = getDoc(doc(db, `inventory`, `info`)).then(doc => doc.data())
+            const productDoc = await getDoc(doc(db, 'products', request.products[i].productName))
+            const product = productDoc.data()
+            const inventoryInfoDoc = await getDoc(doc(db, `inventory`, `info`))
+            const inventoryInfo = inventoryInfoDoc.data()
             const isOverStock = product.inStock >= 1000 ? true : false
 
             
