@@ -26,14 +26,14 @@ app.post('/', async (req, res) => {
             
             await setDoc(doc(db, `products`, request.products[i].productName), {
                 ...product,
-                inStock: product.inStock - request.products[i].amountPurchased
+                inStock: product.inStock - Number(request.products[i].amountPurchased)
             })
     
             await setDoc(doc(db, `inventory`, `info`), {
                 ...inventoryInfo,
-                productOverStocked: isOverStock && (product.inStock-request.products[i].amountPurchased < 1000 ? inventoryInfo.productOverStocked - 1: inventoryInfo.productOverStocked),
-                productOutStocked: product.inStock - request.products[i].amountPurchased == 0 ? (inventoryInfo.productOutStocked + 1) : inventoryInfo.productOutStocked,
-                itemsInStock: inventoryInfo.itemsInStock - request.products[i].amountPurchased
+                productOverStocked: isOverStock && (product.inStock-Number(request.products[i].amountPurchased) < 1000 ? inventoryInfo.productOverStocked - 1: inventoryInfo.productOverStocked),
+                productOutStocked: product.inStock - Number(request.products[i].amountPurchased) == 0 ? (inventoryInfo.productOutStocked + 1) : inventoryInfo.productOutStocked,
+                itemsInStock: inventoryInfo.itemsInStock - Number(request.products[i].amountPurchased)
             })
             
         }
