@@ -16,31 +16,47 @@ app.use(cors({
 app.post('/', async (req, res) => {    
     const request = req.body
     try{
+        var overStock = 0
+        var outStock = 0
+        var totalItemsPurchased = 0
+        const inventoryInfoDoc = await getDoc(doc(db, `inventory`, `info`))
+        const inventoryInfo = inventoryInfoDoc.data()
+
         for(let i = 0; i < request.products.length; i++){
             const productDoc = await getDoc(doc(db, 'products', request.products[i].productName))
             const product = productDoc.data()
-            const inventoryInfoDoc = await getDoc(doc(db, `inventory`, `info`))
-            const inventoryInfo = inventoryInfoDoc.data()
-            const isOverStock = product.inStock >= 1000 ? true : false
+            const requestAmount = Number(request.products[i].amountPurchased)
 
+            if(product.inStock >= 1000){
+                if(product.inStock - requestAmount < 1000){
+                    overStock--
+                }
+            }
+            else{
+                if(product.inStock - requestAmount == 0){
+                    outStock++
+                }
+            }
             
             await setDoc(doc(db, `products`, request.products[i].productName), {
                 ...product,
-                inStock: product.inStock - Number(request.products[i].amountPurchased)
-            })
-    
-            await setDoc(doc(db, `inventory`, `info`), {
-                ...inventoryInfo,
-                productOverStocked: isOverStock && (product.inStock-Number(request.products[i].amountPurchased) < 1000 ? inventoryInfo.productOverStocked - 1: inventoryInfo.productOverStocked),
-                productOutStocked: product.inStock - Number(request.products[i].amountPurchased) == 0 ? (inventoryInfo.productOutStocked + 1) : inventoryInfo.productOutStocked,
-                itemsInStock: inventoryInfo.itemsInStock - Number(request.products[i].amountPurchased)
-            })
-            
+                inStock: product.inStock - requestAmount
+            })    
+            totalItemsPurchased += requestAmount
         }
+
+
+        await setDoc(doc(db, `inventory`, `info`), {
+            ...inventoryInfo,
+            productOverStocked: inventoryInfo.productOverStocked + overStock,
+            itemsInStock: inventoryInfo.itemsInStock - totalItemsPurchased,
+            productOutStocked: inventoryInfo.productOutStocked + outStock
+        })
+
         res.json({success: true})
         res.end()
     }catch(err){
-        res.json({success: false, reason: err.message, sentPayload: request})
+        res.json({success: false, reason: err.message})
         res.end()
     }
 })
