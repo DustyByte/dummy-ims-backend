@@ -58,7 +58,7 @@ app.post('/', async (req, res) => {
 
         await setDoc(doc(db, 'inventory', 'orders'), {
             orders: [...prevOrders.orders, request.products]
-        }
+        })
 
         res.json({success: true})
         res.end()
