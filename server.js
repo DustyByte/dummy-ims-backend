@@ -54,7 +54,7 @@ app.post('/', async (req, res) => {
         })
 
         const prevOrdersDoc = await getDoc(doc(db, 'inventory', 'orders'))
-        const prevOrdersDoc = prevOrdersDoc.data()
+        const prevOrders = prevOrdersDoc.data()
 
         await setDoc(doc(db, 'inventory', 'orders'), {
             orders: [...prevOrders.orders, request.products]
