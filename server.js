@@ -53,6 +53,14 @@ app.post('/', async (req, res) => {
             productOutStocked: inventoryInfo.productOutStocked + outStock
         })
 
+        const prevOrdersDoc = await getDoc(doc(db, 'inventory', 'orders'))
+        const prevOrdersDoc = prevOrdersDoc.data()
+
+        await setDoc(doc(db, 'inventory', 'orders'), {
+            ...prevOrders,
+            request
+        }
+
         res.json({success: true})
         res.end()
     }catch(err){
